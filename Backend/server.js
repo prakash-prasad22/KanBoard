@@ -19,6 +19,10 @@ mongoose.connect(MONGO)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('Mongo connect error', err));
 
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
+
 // Socket.io: broadcast refresh event after REST updates (we will emit from restful endpoints here via mongoose middlewares or simpler: not mutate from sockets)
 io.on('connection', socket => {
   console.log('Socket connected', socket.id);
