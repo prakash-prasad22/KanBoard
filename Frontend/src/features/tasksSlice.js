@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Read env vars (Vite style)
-const API = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/tasks';
-const BROADCAST = import.meta.env.VITE_API_URL_BROADCAST || 'http://localhost:8080/api/broadcast';
+const API = import.meta.env.VITE_API_URL;
+const BROADCAST = import.meta.env.VITE_API_URL_BROADCAST;
 
 // fetch all
 export const fetchTasks = createAsyncThunk('tasks/fetch', async () => {
