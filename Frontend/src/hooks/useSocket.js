@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { fetchTasks } from '../features/tasksSlice';
 import { useDispatch } from 'react-redux';
 
-const SOCKET_URL = import.meta.env.REACT_APP_SOCKET_URL || 'http://localhost:8080';
+const SOCKET_URL = import.meta.env.REACT_APP_SOCKET_URL;
 
 export default function useSocket() {
   const dispatch = useDispatch();
