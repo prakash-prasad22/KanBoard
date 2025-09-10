@@ -1,48 +1,118 @@
-// src/components/Column.jsx
-import { useDispatch } from "react-redux";
-import { addTask } from "../features/tasksSlice";
-import Task from "./TaskCard";
-import { useState } from "react";
+/*import React, { useState } from 'react';
+import TaskCard from './Task';
+import { useDroppable } from '@dnd-kit/core';
 
-export default function Column({ title, tasks, status }) {
-  const dispatch = useDispatch();
-  const [newTask, setNewTask] = useState("");
+export default function Column({ title, tasks, onAdd, onEdit, onDelete }) {
+  const [input, setInput] = useState('');
+  const label = title.charAt(0).toUpperCase() + title.slice(1);
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    if (!newTask.trim()) return;
-    dispatch(addTask({ title: newTask, status }));
-    setNewTask("");
-  };
+  const { setNodeRef, isOver } = useDroppable({ id: title });
 
   return (
-    <div className="bg-gray-50 rounded-xl shadow-inner p-4 flex flex-col gap-3 w-full">
-      <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-lg text-gray-700">{title}</h2>
-        <span className="bg-gray-200 text-gray-700 text-sm px-2 py-1 rounded-full">
+    <div
+      ref={setNodeRef}
+      className={`p-4 rounded-lg min-h-[400px] transition-colors ${
+        isOver ? 'bg-blue-50' : 'bg-gray-50'
+      }`}
+    >
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="font-bold text-gray-700">{label}</h3>
+        <span className="text-xs bg-gray-200 px-2 py-1 rounded-full">
           {tasks.length}
         </span>
       </div>
 
-      <div className="flex flex-col gap-3">
-        {tasks.map((t) => (
-          <Task key={t._id} task={t} />
+      <div className="mb-4">
+        {tasks.map((task) => (
+          <TaskCard
+            key={task._id}
+            task={task}
+            onEdit={(newTitle) => onEdit(task._id, { title: newTitle })}
+            onDelete={() => onDelete(task._id)}
+          />
         ))}
       </div>
 
-      <form onSubmit={handleAdd} className="mt-3 flex gap-2">
-        <input
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Add task..."
-          className="flex-grow border px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <button
-          type="submit"
-          className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
-          +
-        </button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!input.trim()) return;
+          onAdd(input.trim());
+          setInput('');
+        }}
+      >
+        <div className="flex gap-2">
+          <input
+            className="flex-grow p-2 rounded-l-lg border border-gray-300 focus:outline-none"
+            placeholder="New task"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            aria-label={`Add new task to ${label}`}
+          />
+          <button className="bg-blue-600 text-white px-3 rounded-r-lg">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}*/
+
+// src/components/Column.jsx
+import React, { useState } from 'react';
+import TaskCard from './Task';
+import { useDroppable } from '@dnd-kit/core';
+
+export default function Column({ title, tasks, onAdd, onEdit, onDelete }) {
+  const [input, setInput] = useState('');
+  const label = title.charAt(0).toUpperCase() + title.slice(1);
+
+  const { setNodeRef, isOver } = useDroppable({ id: title });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`p-4 rounded-lg min-h-[400px] transition-colors ${
+        isOver ? 'bg-blue-50' : 'bg-gray-50'
+      }`}
+    >
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="font-bold text-gray-700">{label}</h3>
+        <span className="text-xs bg-gray-200 px-2 py-1 rounded-full">
+          {tasks.length}
+        </span>
+      </div>
+
+      <div className="mb-4">
+        {tasks.map((task) => (
+          <TaskCard
+            key={task._id}
+            task={task}
+            onEdit={(newTitle) => onEdit(task._id, { title: newTitle })}
+            onDelete={() => onDelete(task._id)}
+          />
+        ))}
+      </div>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!input.trim()) return;
+          onAdd(input.trim());
+          setInput('');
+        }}
+      >
+        <div className="flex gap-2">
+          <input
+            className="flex-grow p-2 rounded-l-lg border border-gray-300 focus:outline-none"
+            placeholder="New task"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button className="bg-blue-600 text-white px-3 rounded-r-lg">
+            Add
+          </button>
+        </div>
       </form>
     </div>
   );
