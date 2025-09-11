@@ -152,11 +152,11 @@ export default function KanbanBoard() {
     }
   };
 
-  const handleAdd = (title, column) => {
-    const fakeId = "tmp-" + Date.now();
-    dispatch(optimisticAdd({ _id: fakeId, title, status: column }));
-    dispatch(addTask({ _id: fakeId, title, status: column }));
-  };
+const handleAdd = (title, column) => {
+  const tempId = "tmp-" + Date.now();
+  dispatch(optimisticAdd({ _id: tempId, title, status: column }));
+  dispatch(addTask({ title, status: column, tempId }));
+};
 
   const handleEdit = (id, updates) => {
     dispatch(optimisticUpdate({ id, updates }));
