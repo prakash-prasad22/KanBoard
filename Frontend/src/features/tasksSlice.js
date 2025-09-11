@@ -87,7 +87,7 @@ export default tasksSlice.reducer;*/
 
 //Updated Optimistic UI
 
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+/*import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
@@ -206,5 +206,115 @@ export const {
   optimisticUpdateStatus,
 } = tasksSlice.actions;
 
+export default tasksSlice.reducer;*/
+
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const API = import.meta.env.VITE_API_URL; // your backend base URL
+
+// 🔹 Fetch all
+export const fetchTasks = createAsyncThunk("tasks/fetch", async () => {
+  const res = await axios.get(API);
+  return res.data;
+});
+
+// 🔹 Add task
+export const addTask = createAsyncThunk("tasks/add", async (task) => {
+  const res = await axios.post(`${API}/add`, {
+    title: task.title,
+    status: task.status,
+  });
+  return { backendTask: res.data, tempId: task.tempId };
+});
+
+// 🔹 Update task
+export const updateTask = createAsyncThunk(
+  "tasks/update",
+  async ({ id, updates }) => {
+    const res = await axios.put(`${API}/update/${id}`, updates);
+    return res.data;
+  }
+);
+
+// 🔹 Delete task
+export const deleteTask = createAsyncThunk("tasks/delete", async (id) => {
+  await axios.delete(`${API}/delete/${id}`);
+  return id;
+});
+
+const tasksSlice = createSlice({
+  name: "tasks",
+  initialState: {
+    items: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    // ---------------- OPTIMISTIC ----------------
+    optimisticAdd: (state, action) => {
+      state.items.push(action.payload); // push temp task
+    },
+    optimisticUpdate: (state, action) => {
+      const { id, updates } = action.payload;
+      const task = state.items.find((t) => t._id === id);
+      if (task) Object.assign(task, updates);
+    },
+    optimisticDelete: (state, action) => {
+      state.items = state.items.filter((t) => t._id !== action.payload);
+    },
+    optimisticUpdateStatus: (state, action) => {
+      const { id, status } = action.payload;
+      const task = state.items.find((t) => t._id === id);
+      if (task) task.status = status;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // Fetch
+      .addCase(fetchTasks.pending, (s) => {
+        s.loading = true;
+      })
+      .addCase(fetchTasks.fulfilled, (s, a) => {
+        s.loading = false;
+        s.items = a.payload;
+      })
+      .addCase(fetchTasks.rejected, (s, a) => {
+        s.loading = false;
+        s.error = a.error.message;
+      })
+
+      // Add
+      .addCase(addTask.fulfilled, (s, a) => {
+        const { backendTask, tempId } = a.payload;
+        const idx = s.items.findIndex((t) => t._id === tempId);
+        if (idx !== -1) {
+          s.items[idx] = backendTask; // replace temp with real
+        } else {
+          s.items.push(backendTask);
+        }
+      })
+
+      // Update
+      .addCase(updateTask.fulfilled, (s, a) => {
+        const idx = s.items.findIndex((t) => t._id === a.payload._id);
+        if (idx !== -1) s.items[idx] = a.payload;
+      })
+
+      // Delete
+      .addCase(deleteTask.fulfilled, (s, a) => {
+        s.items = s.items.filter((t) => t._id !== a.payload);
+      });
+  },
+});
+
+export const {
+  optimisticAdd,
+  optimisticUpdate,
+  optimisticDelete,
+  optimisticUpdateStatus,
+} = tasksSlice.actions;
+
 export default tasksSlice.reducer;
+
 
