@@ -1,84 +1,71 @@
-KanBan Board
-A dynamic, real-time Kanban board application built to manage tasks with a modern and intuitive user interface. This project features full-stack functionality, including drag-and-drop task management, optimistic UI updates, and real-time synchronization across all connected clients.
+# Kanban Board
 
-Features
-Drag-and-Drop: Seamlessly move tasks between columns with a responsive drag-and-drop interface.
+A dynamic, real-time **Kanban board application** built to manage tasks with a modern and intuitive user interface.  
+This project features **full-stack functionality**, including drag-and-drop task management, optimistic UI updates, and real-time synchronization across all connected clients.
 
-Real-time Updates: Tasks are synchronized instantly across all users in real-time using Socket.IO.
+---
 
-Optimistic UI: User interface updates immediately after an action (e.g., adding, updating, deleting a task), providing a smooth user experience. The state is then validated with the server in the background.
+## ✨ Features
 
-CRUD Operations: Fully functional task management, including adding, updating, and deleting tasks.
+- **Drag-and-Drop** – Seamlessly move tasks between columns with a responsive drag-and-drop interface.  
+- **Real-time Updates** – Tasks are synchronized instantly across all users in real-time using **Socket.IO**.  
+- **Optimistic UI** – The UI updates immediately after an action (adding, updating, deleting), providing a smooth user experience. The state is then validated with the server in the background.  
+- **CRUD Operations** – Fully functional task management: add, update, delete tasks.  
+- **Clean UI** – A modern and minimalist design built with **Tailwind CSS**.  
 
-Clean UI: A modern and minimalist design built with Tailwind CSS.
+---
 
-Tech Stack
-Frontend
-React: A JavaScript library for building user interfaces.
+## 🛠️ Tech Stack
 
-Redux Toolkit: Official, opinionated, batteries-included toolset for efficient Redux development.
+### Frontend
+- **React** – For building the user interface.  
+- **Redux Toolkit** – Efficient state management.  
+- **Dnd-kit** – Lightweight drag-and-drop library for React.  
+- **Axios** – Promise-based HTTP client.  
+- **Socket.IO Client** – Real-time communication.  
+- **Tailwind CSS** – Utility-first CSS framework.  
 
-Dnd-kit: A lightweight and flexible drag and drop library for React.
+### Backend
+- **Node.js & Express.js** – RESTful API.  
+- **MongoDB & Mongoose** – NoSQL database with ODM for data modeling.  
+- **Socket.IO** – Real-time, event-based communication.  
 
-Axios: A promise-based HTTP client for making API requests.
+---
 
-Socket.IO Client: A library for real-time, bidirectional event-based communication.
+## 🚀 Getting Started
 
-Tailwind CSS: A utility-first CSS framework for rapid UI development.
-
-Backend
-Node.js & Express.js: A robust web framework for building the RESTful API.
-
-Mongoose: An object data modeling (ODM) library for MongoDB and Node.js.
-
-MongoDB: A NoSQL database for storing application data.
-
-Socket.IO: A library for enabling real-time, event-based communication between the server and clients.
-
-Getting Started
-1. Backend Setup
-Navigate to the backend directory:
-
+### 1. Backend Setup
+```bash
+# Navigate to backend directory
 cd backend
 
-Install the required dependencies:
-
+# Install dependencies
 npm install
 
-Create a .env file in the backend directory with your MongoDB connection string:
-
+#Create a .env file inside the backend/ folder:
 MONGO_URI=mongodb://127.0.0.1:27017/kanban-board
 PORT=8080
 
-Start the backend server:
-
+#Run the backend:
 node server.js
+```
 
-The backend will run on http://localhost:8080.
-
-2. Frontend Setup
-Navigate to the frontend directory:
-
+### 2. Backend Setup
+```bash
+# Navigate to frontend directory
 cd frontend
 
-Install the required dependencies:
-
+# Install dependencies
 npm install
 
-Create a .env file in the frontend directory and define the backend URLs:
-
+#Create a .env file inside the frontend/ folder:
 VITE_API_URL=http://localhost:8080/api/tasks
 VITE_API_URL_BROADCAST=http://localhost:8080/api/broadcast
 VITE_SOCKET_URL=http://localhost:8080
 
-Start the frontend application:
-
+#Run the frontend:
 npm run dev
+```
+<h2>Live Demo</h2>
 
-The frontend will be accessible on http://localhost:5173 (or a similar port).
-
-Contributing
-Feel free to open issues or submit pull requests. All contributions are welcome.
-
-License
-This project is licensed under the MIT License.
+<p><a href="https://kanboard-frontend.onrender.com">https://kanboard-frontend.onrender.com</a></p>
